@@ -10,15 +10,25 @@ const getNotes = async (req, res) => {
 
     res.json(notes);
   } catch (error) {
+    console.error(error);
+
     res.status(500).json({
-      message: "Something went wrong",
+      message: "Error while fetching notes.",
     });
   }
 };
 
 const createNote = async (req, res) => {
   try {
-    const { title, content } = req.body;
+    const title = req.body.title?.trim();
+    const content = req.body.content?.trim();   
+
+    
+    if (!title?.trim() || !content?.trim()) {
+      return res.status(400).json({
+        message: "Title and content are required.",
+      });
+    }
 
     const note = await prisma.note.create({
       data: {
@@ -39,6 +49,18 @@ const deleteNote = async (req, res) => {
   try {
     const { id } = req.params;
 
+    const existingNote = await prisma.note.findUnique({
+      where: {
+        id: Number(id),
+      },
+    });
+
+    if (!existingNote) {
+      return res.status(404).json({
+        message: "Note not found.",
+      });
+    }
+
     await prisma.note.delete({
       where: {
         id: Number(id),
@@ -46,11 +68,13 @@ const deleteNote = async (req, res) => {
     });
 
     res.json({
-      message: "Note deleted",
+      message: "Note deleted.",
     });
   } catch (error) {
+    console.error(error);
+
     res.status(500).json({
-      message: "Something went wrong",
+      message: "Something went wrong.",
     });
   }
 };

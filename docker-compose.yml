@@ -1,0 +1,23 @@
+services:
+  db:
+    image: postgres:17
+
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: notesdb
+
+    ports:
+      - "5432:5432"
+
+  backend:
+    build: ./backend
+
+    ports:
+      - "5000:5000"
+
+    environment:
+      DATABASE_URL: postgresql://postgres:password@db:5432/notesdb
+
+    depends_on:
+      - db
