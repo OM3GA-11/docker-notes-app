@@ -11,7 +11,7 @@ function App() {
   useEffect(() => {
     async function fetchNotes() {
       try {
-        const response = await fetch(`${import.meta.env.VITE_API_URL}/notes`);
+        const response = await fetch("https://notes-backend-l4ed.onrender.com/notes/notes");
         const data = await response.json();
 
         setNotes(data);
@@ -25,7 +25,7 @@ function App() {
 
   async function addNote() {
   try {
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/notes`, {
+    const response = await fetch("https://notes-backend-l4ed.onrender.com/notes/notes", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -49,7 +49,7 @@ function App() {
 
 async function deleteNote(id) {
   try {
-    await fetch(`${import.meta.env.VITE_API_URL}/notes`, {
+    await fetch("https://notes-backend-l4ed.onrender.com/notes/notes", {
       method: "DELETE",
     });
 
