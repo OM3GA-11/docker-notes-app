@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 
 
 function App() {
+  console.log("API URL =", import.meta.env.VITE_API_URL);
   const [notes, setNotes] = useState([]);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
